@@ -1,0 +1,35 @@
+<h1>Quiz Maker</h1>
+
+<label for="numQuestions">Enter Number of Questions</label>
+<input id="numQuestions" #questions type="number" />
+<button (click)="numberQuestions(questions.value)">Make Quiz</button>
+
+<label for="randomizeAll">Randomize</label>
+<input type="checkbox" id="randomizeAll" #randomizeAll />
+
+<div
+  *ngFor="let in of numQuestionsArr; let i = index"
+  style="display: flex; flex-direction: column;"
+>
+  -------------------------------
+  <label for="type">Type</label>
+  <input type="text" #type id="type" (blur)="update(i, type.value)" />/>
+
+  <label for="text">Text</label>
+  <input type="text" #text id="text" />
+
+  <label for="points">Point Value</label>
+  <input type="number" #points id="points" />
+
+  <label for="answers">Answers(Seperate by a comma)</label>
+  <input type="text" #answers id="answers" />
+
+  <label for="correct_answer">Correct Answer</label>
+  <input type="text" #answers id="correct_answer" />
+
+  <label for="ranomizeAnswer">Randomize Answer</label>
+  <input type="checkbox" id="randomizeAnswer" #randomizeAnswer />
+  -------------------------------
+</div>
+
+<button onclick="submitQuiz()">Submit Quiz</button>
