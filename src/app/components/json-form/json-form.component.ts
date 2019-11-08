@@ -7,6 +7,8 @@ import {
   FormControl
 } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { GetJsonService } from "src/app/services/get-json.service";
 
 @Component({
   selector: "app-json-form",
@@ -18,36 +20,47 @@ export class JsonFormComponent implements OnInit {
   randomizeQuiz = false;
   finalJSON = [{}];
 
-  constructor(private fb: FormBuilder, private httpClient: HttpClient) {}
+  quizJSON = [];
+
+  constructor(
+    private fb: FormBuilder,
+    private httpClient: HttpClient,
+    private quizService: GetJsonService
+  ) {}
 
   ngOnInit() {
     this.quizForm = this.fb.group({
       questions: this.fb.array([this.initQuestions()])
+    });
+
+    this.quizService.initQuiz();
+    this.quizService.getQuiz().subscribe(data => {
+      this.parseQuiz(data);
     });
   }
 
   initQuestions() {
     return this.fb.group({
       //  ---------------------forms fields on x level ------------------------
-      Type: ["Type", [Validators.required]],
-      Text: ["Text", [Validators.required]],
-      Points: [, [Validators.required]],
+      Type: [],
+      Text: [],
+      Points: [],
       // ---------------------------------------------------------------------
-      Answers: this.fb.array([this.initAnswers()]),
-      CorrectAnswers: this.fb.array([this.initCorretAnswers()]),
+      Answers: this.fb.array([]),
+      CorrectAnswers: this.fb.array([]),
       Randomize: [false]
     });
   }
 
   initAnswers() {
     return this.fb.group({
-      Answer: ["", [Validators.required]]
+      Answer: [""]
     });
   }
 
   initCorretAnswers() {
     return this.fb.group({
-      Correct: ["", [Validators.required]]
+      Correct: [""]
     });
   }
 
@@ -56,11 +69,112 @@ export class JsonFormComponent implements OnInit {
     control.push(this.initQuestions());
   }
 
+  setQuestions(data) {
+    // this.deleteQuestion(0);
+    let control = <FormArray>this.quizForm.controls.questions;
+
+    // console.log(this.quizForm.value.questions[0]);
+    // this.quizForm.value.questions[0].
+    // control[0].patchValue({
+    //   Type: [data[0]["type"]],
+    //   Text: [data[0]["text"]],
+    //   Points: [data[0]["point_value"]],
+    //   // ---------------------------------------------------------------------
+    //   Answers: this.fb.array([this.addFirstAnswer(0, data[0]["answers"])]),
+    //   CorrectAnswers: this.fb.array([
+    //     this.addFirstCorrect(0, data[0]["correct_answers"])
+    //   ]),
+    //   Randomize: [false]
+    // });
+
+    // this.quizForm.patchValue({
+    //   Type: [data[0]["type"]],
+    //   Text: [data[0]["text"]],
+    //   Points: [data[0]["point_value"]],
+    //   // ---------------------------------------------------------------------
+    //   Answers: this.fb.array([this.addFirstAnswer(0, data[0]["answers"])]),
+    //   CorrectAnswers: this.fb.array([
+    //     this.addFirstCorrect(0, data[0]["correct_answers"])
+    //   ]),
+    //   Randomize: [false]
+    // });
+    // this.addRestOfAnswers(0, data[0]["answers"]);
+    // this.addRestOfCorrect(0, data[0]["correct_answers"]);
+
+    for (let i = 0; i < data.length; i++) {
+      // console.log(data[i]);
+      control.push(
+        this.fb.group({
+          //  ---------------------forms fields on x level ------------------------
+          Type: [data[i]["type"]],
+          Text: [data[i]["text"]],
+          Points: [data[i]["point_value"]],
+          // ---------------------------------------------------------------------
+          Answers: this.fb.array([this.addFirstAnswer(i, data[i]["answers"])]),
+          CorrectAnswers: this.fb.array([
+            this.addFirstCorrect(i, data[i]["correct_answers"])
+          ]),
+          Randomize: [false]
+        })
+      );
+      this.addRestOfAnswers(i + 1, data[i]["answers"]);
+      this.addRestOfCorrect(i + 1, data[i]["correct_answers"]);
+    }
+  }
+
+  addFirstAnswer(index, data) {
+    const control = (<FormArray>this.quizForm.controls["questions"])
+      .at(index)
+      .get("Answers") as FormArray;
+
+    return this.fb.group({
+      Answer: [data[0]]
+    });
+  }
+
+  addRestOfAnswers(index, data) {
+    const control = (<FormArray>this.quizForm.controls["questions"])
+      .at(index)
+      .get("Answers") as FormArray;
+
+    for (let i = 1; i < data.length; i++) {
+      control.push(
+        this.fb.group({
+          Answer: data[i]
+        })
+      );
+    }
+  }
+
+  addFirstCorrect(index, data) {
+    const control = (<FormArray>this.quizForm.controls["questions"])
+      .at(index)
+      .get("CorrectAnswers") as FormArray;
+
+    return this.fb.group({
+      Correct: [data[0]]
+    });
+  }
+
+  addRestOfCorrect(index, data) {
+    const control = (<FormArray>this.quizForm.controls["questions"])
+      .at(index)
+      .get("CorrectAnswers") as FormArray;
+
+    for (let i = 1; i < data.length; i++) {
+      control.push(
+        this.fb.group({
+          Correct: [data[i]]
+        })
+      );
+    }
+  }
+
   deleteQuestion(index: number) {
     const control = <FormArray>this.quizForm.controls["questions"];
-    if (control.length > 1) {
-      control.removeAt(index);
-    }
+    // if (control.length > 1) {
+    control.removeAt(index);
+    // }
   }
 
   addAnswer(ix) {
@@ -95,7 +209,12 @@ export class JsonFormComponent implements OnInit {
     }
   }
 
-  populateForm() {}
+  parseQuiz(data) {
+    console.log(data);
+    let questions = data[0]["questions"];
+    console.log("qeustions", questions);
+    this.setQuestions(questions);
+  }
 
   submit() {
     let questions = this.quizForm.value.questions;
