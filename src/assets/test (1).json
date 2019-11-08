@@ -1,0 +1,24 @@
+[
+  {
+    "num_questions": "2",
+    "randomize": false,
+    "questions": [
+      {
+        "type": "multiple choice",
+        "text": "text 1",
+        "point_value": "2",
+        "answers": ["a", "b", "c", "d"],
+        "correct_answers": ["d"],
+        "randomize": true
+      },
+      {
+        "type": "multiple choice",
+        "text": "text 2",
+        "point_value": "3",
+        "answers": ["True", " False"],
+        "correct_answers": ["False"],
+        "randomize": false
+      }
+    ]
+  }
+]

@@ -1,35 +1,87 @@
 <h1>Quiz Maker</h1>
-
-<label for="numQuestions">Enter Number of Questions</label>
-<input id="numQuestions" #questions type="number" />
-<button (click)="numberQuestions(questions.value)">Make Quiz</button>
-
 <label for="randomizeAll">Randomize</label>
-<input type="checkbox" id="randomizeAll" #randomizeAll />
+<input
+  type="checkbox"
+  id="randomizeAll"
+  #randomizeAll
+  [(ngModel)]="randomizeQuiz"
+/>
+<form [formGroup]="quizForm" (ngSubmit)="submit()">
+  <!-- Questions -->
+  <div formArrayName="questions">
+    <div
+      *ngFor="
+        let question of quizForm['controls'].questions['controls'];
+        let ix = index
+      "
+    >
+      <p>
+        ------------------------------------------------------------------------------------------------------------
+      </p>
+      <p>Question {{ ix + 1 }}</p>
+      <div formGroupName="{{ ix }}" class="Xs">
+        <label for="type">Type</label>
+        <input type="text" formControlName="Type" id="type" />
+        <label for="text">Text</label>
+        <input type="text" formControlName="Text" id="text" />
+        <label for="points">Points</label>
+        <input type="number" formControlName="Points" id="points" />
 
-<div
-  *ngFor="let in of numQuestionsArr; let i = index"
-  style="display: flex; flex-direction: column;"
->
-  -------------------------------
-  <label for="type">Type</label>
-  <input type="text" #type id="type" (blur)="update(i, type.value)" />/>
+        <!-- Answers -->
+        <div formArrayName="Answers">
+          <p>Answers</p>
+          <div
+            *ngFor="
+              let answer of question['controls'].Answers['controls'];
+              let iy = index
+            "
+          >
+            <div formGroupName="{{ iy }}" class="Ys">
+              <input type="text" formControlName="Answer" />
+            </div>
+          </div>
+          <input type="button" (click)="addAnswer(ix)" value="Add Answer" />
+          <input
+            type="button"
+            (click)="deleteAnswer(ix)"
+            value="Delete Answer"
+          />
+        </div>
+        <!-- Answers End-->
+        <!-- Correct Answers -->
+        <div formArrayName="CorrectAnswers">
+          <p>Correct Answer(s)</p>
+          <div
+            *ngFor="
+              let correct of question['controls'].CorrectAnswers['controls'];
+              let iz = index
+            "
+          >
+            <div formGroupName="{{ iz }}" class="Zs">
+              <input type="text" formControlName="Correct" />
+            </div>
+          </div>
+          <input type="button" (click)="addCorrect(ix)" value="Add Correct" />
+          <input
+            type="button"
+            (click)="deleteCorrect(ix)"
+            value="Delete Correct"
+          />
+        </div>
+        <!-- Correct Answers End -->
 
-  <label for="text">Text</label>
-  <input type="text" #text id="text" />
+        <label for="random">Randomize</label>
+        <input type="checkbox" formControlName="Randomize" id="random" />
+      </div>
+    </div>
 
-  <label for="points">Point Value</label>
-  <input type="number" #points id="points" />
-
-  <label for="answers">Answers(Seperate by a comma)</label>
-  <input type="text" #answers id="answers" />
-
-  <label for="correct_answer">Correct Answer</label>
-  <input type="text" #answers id="correct_answer" />
-
-  <label for="ranomizeAnswer">Randomize Answer</label>
-  <input type="checkbox" id="randomizeAnswer" #randomizeAnswer />
-  -------------------------------
-</div>
-
-<button onclick="submitQuiz()">Submit Quiz</button>
+    <input type="button" (click)="addQuestion()" value="Add Question" />
+    <input type="button" (click)="deleteQuestion(ix)" value="Delete Question" />
+  </div>
+  <!-- Questions End -->
+  <button type="submit">Submit Quiz</button>
+  <!-- <form>
+    <h5>Field Values</h5>
+    <pre style="font-size:15px">{{ quizForm.value | json }}</pre>
+  </form> -->
+</form>
