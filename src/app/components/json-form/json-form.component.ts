@@ -70,74 +70,29 @@ export class JsonFormComponent implements OnInit {
   }
 
   setQuestions(data) {
-    // this.deleteQuestion(0);
     let control = <FormArray>this.quizForm.controls.questions;
 
-    // console.log(this.quizForm.value.questions[0]);
-    // this.quizForm.value.questions[0].
-    // control[0].patchValue({
-    //   Type: [data[0]["type"]],
-    //   Text: [data[0]["text"]],
-    //   Points: [data[0]["point_value"]],
-    //   // ---------------------------------------------------------------------
-    //   Answers: this.fb.array([this.addFirstAnswer(0, data[0]["answers"])]),
-    //   CorrectAnswers: this.fb.array([
-    //     this.addFirstCorrect(0, data[0]["correct_answers"])
-    //   ]),
-    //   Randomize: [false]
-    // });
-
-    // this.quizForm.patchValue({
-    //   Type: [data[0]["type"]],
-    //   Text: [data[0]["text"]],
-    //   Points: [data[0]["point_value"]],
-    //   // ---------------------------------------------------------------------
-    //   Answers: this.fb.array([this.addFirstAnswer(0, data[0]["answers"])]),
-    //   CorrectAnswers: this.fb.array([
-    //     this.addFirstCorrect(0, data[0]["correct_answers"])
-    //   ]),
-    //   Randomize: [false]
-    // });
-    // this.addRestOfAnswers(0, data[0]["answers"]);
-    // this.addRestOfCorrect(0, data[0]["correct_answers"]);
-
     for (let i = 0; i < data.length; i++) {
-      // console.log(data[i]);
-      control.push(
-        this.fb.group({
-          //  ---------------------forms fields on x level ------------------------
-          Type: [data[i]["type"]],
-          Text: [data[i]["text"]],
-          Points: [data[i]["point_value"]],
-          // ---------------------------------------------------------------------
-          Answers: this.fb.array([this.addFirstAnswer(i, data[i]["answers"])]),
-          CorrectAnswers: this.fb.array([
-            this.addFirstCorrect(i, data[i]["correct_answers"])
-          ]),
-          Randomize: [false]
-        })
-      );
-      this.addRestOfAnswers(i + 1, data[i]["answers"]);
-      this.addRestOfCorrect(i + 1, data[i]["correct_answers"]);
+      control.at(i).patchValue({
+        Type: [data[i]["type"]],
+        Text: [data[i]["text"]],
+        Points: [data[i]["point_value"]],
+        Randomize: [data[i]["randomize"]]
+      });
+      this.addAllAnswers(i, data[i]["answers"]);
+      this.addAllCorrect(i, data[i]["correct_answers"]);
+      if (i < data.length - 1) {
+        control.push(this.initQuestions());
+      }
     }
   }
 
-  addFirstAnswer(index, data) {
+  addAllAnswers(index, data) {
     const control = (<FormArray>this.quizForm.controls["questions"])
       .at(index)
       .get("Answers") as FormArray;
 
-    return this.fb.group({
-      Answer: [data[0]]
-    });
-  }
-
-  addRestOfAnswers(index, data) {
-    const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(index)
-      .get("Answers") as FormArray;
-
-    for (let i = 1; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       control.push(
         this.fb.group({
           Answer: data[i]
@@ -146,22 +101,22 @@ export class JsonFormComponent implements OnInit {
     }
   }
 
-  addFirstCorrect(index, data) {
+  // addFirstCorrect(index, data) {
+  //   const control = (<FormArray>this.quizForm.controls["questions"])
+  //     .at(index)
+  //     .get("CorrectAnswers") as FormArray;
+
+  //   return this.fb.group({
+  //     Correct: [data[0]]
+  //   });
+  // }
+
+  addAllCorrect(index, data) {
     const control = (<FormArray>this.quizForm.controls["questions"])
       .at(index)
       .get("CorrectAnswers") as FormArray;
 
-    return this.fb.group({
-      Correct: [data[0]]
-    });
-  }
-
-  addRestOfCorrect(index, data) {
-    const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(index)
-      .get("CorrectAnswers") as FormArray;
-
-    for (let i = 1; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       control.push(
         this.fb.group({
           Correct: [data[i]]
@@ -172,14 +127,14 @@ export class JsonFormComponent implements OnInit {
 
   deleteQuestion(index: number) {
     const control = <FormArray>this.quizForm.controls["questions"];
-    // if (control.length > 1) {
-    control.removeAt(index);
-    // }
+    if (control.length > 1) {
+      control.removeAt(index);
+    }
   }
 
-  addAnswer(ix) {
+  addAnswer(index) {
     const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(ix)
+      .at(index)
       .get("Answers") as FormArray;
     control.push(this.initAnswers());
   }
@@ -188,8 +143,11 @@ export class JsonFormComponent implements OnInit {
     const control = (<FormArray>this.quizForm.controls["questions"])
       .at(index)
       .get("Answers") as FormArray;
+
+    control.removeAt(index);
     if (control.length > 1) {
       control.removeAt(index);
+      console.log(index);
     }
   }
 

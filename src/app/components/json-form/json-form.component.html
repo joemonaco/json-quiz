@@ -19,6 +19,11 @@
         ------------------------------------------------------------------------------------------------------------
       </p>
       <p>Question {{ ix + 1 }}</p>
+      <input
+        type="button"
+        (click)="deleteQuestion(ix)"
+        value="Delete Question"
+      />
       <div formGroupName="{{ ix }}" class="Xs">
         <label for="type">Type</label>
         <input type="text" formControlName="Type" id="type" />
@@ -74,10 +79,8 @@
         <input type="checkbox" formControlName="Randomize" id="random" />
       </div>
     </div>
-
-    <input type="button" (click)="addQuestion()" value="Add Question" />
-    <input type="button" (click)="deleteQuestion(ix)" value="Delete Question" />
   </div>
+  <input type="button" (click)="addQuestion()" value="Add Question" />
   <!-- Questions End -->
   <button type="submit">Submit Quiz</button>
   <!-- <form>

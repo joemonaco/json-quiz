@@ -1,22 +1,402 @@
 [
   {
-    "num_questions": 2,
+    "num_questions": 35,
+    "randomize": false,
     "questions": [
       {
-        "type": "multiple choice",
-        "text": "Text example 1",
-        "point_value": 6,
-        "answers": ["A", "B", "C", "D"],
-        "correct_answers": ["B"],
-        "randomize": true
+        "type": ["multiple choice"],
+        "text": [
+          "Regions of the brain affected by prolonged use of addictive substances are involved in which processes (among others)?"
+        ],
+        "point_value": [1],
+        "answers": ["a", "stuff", "c", "d"],
+        "correct_answers": ["Motivation and reward"],
+        "randomize": [true]
       },
       {
-        "type": "multiple choice",
-        "text": "Text example 2",
-        "point_value": 2,
+        "type": ["multiple choice"],
+        "text": [
+          "Which agent is combined with naloxone to help treat opioid addiction?"
+        ],
+        "point_value": [1],
+        "answers": ["Methadone", "Buprenorphine", "Heroin", "OxyContin"],
+        "correct_answers": ["Buprenorphine"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "_____________ is a natural opioid/are natural opioids produced in the body."
+        ],
+        "point_value": [1],
+        "answers": ["Dopamine", "Endorphins", "Glutamate", "Acetylcholine"],
+        "correct_answers": ["Endorphins"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "______________ is the neurotransmitter associated with feelings of pleasure."
+        ],
+        "point_value": [1],
+        "answers": ["Dopamine", "Endorphins", "Glutamate", "Acetylcholine"],
+        "correct_answers": ["Dopamine"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["Tolerance is defined as:"],
+        "point_value": [1],
+        "answers": [
+          "A variety of unpleasant symptoms occurring after the use of opioids is reduced or stopped",
+          "A condition in which higher doses of opioids are required to produce the same effects as during initial use",
+          "The recurrence of opioid use after a period of abstinence",
+          "An adaptive physiological state occurring with regular opioid use that results in a withdrawal syndrome if opioid use is stopped"
+        ],
+        "correct_answers": [
+          "A condition in which higher doses of opioids are required to produce the same effects as during initial use"
+        ],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Suboxone sublingual tablets contain buprenorphine, a partial agonist at the mu-opioid receptor, and naloxone, an antagonist at the mu-opioid receptor."
+        ],
+        "point_value": [1],
+        "answers": ["True", "False"],
+        "correct_answers": ["True"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Which of the following screening tools takes less than a minute to administer and is scored instantaneously?"
+        ],
+        "point_value": [1],
+        "answers": ["BAM", "AUDIT", "PACS", "CAGE"],
+        "correct_answers": ["CAGE"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Which of the following agents is administered on a once-monthly schedule?"
+        ],
+        "point_value": [1],
+        "answers": [
+          "Disulfiram",
+          "Acamprosate",
+          "Oral naltrexone",
+          "Extended release injectable naltrexone"
+        ],
+        "correct_answers": ["Extended release injectable naltrexone"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["Methadone is a _______________."],
+        "point_value": [1],
+        "answers": [
+          "partial agonist",
+          "full agonist",
+          "antagonist",
+          "none of these is correct"
+        ],
+        "correct_answers": ["full agonist"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["Buprenorphine is a(n) _______________."],
+        "point_value": [1],
+        "answers": [
+          "partial agonist",
+          "full agonist",
+          "antagonist",
+          "none of these is correct"
+        ],
+        "correct_answers": ["partial agonist"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["Methadone is a _____________________ narcotic."],
+        "point_value": [1],
+        "answers": ["Schedule I", "Schedule II", "Schedule III", "Schedule IV"],
+        "correct_answers": ["Schedule II"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["What is the route of administration for methadone?"],
+        "point_value": [1],
+        "answers": ["injection", "sublingual", "intravenous", "oral liquid"],
+        "correct_answers": ["oral liquid"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["Buprenorphine is a ____________ narcotic."],
+        "point_value": [1],
+        "answers": ["Schedule I", "Schedule II", "Schedule III", "Schedule IV"],
+        "correct_answers": ["Schedule III"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["Which of the following is a behavioral treatment goal?"],
+        "point_value": [1],
+        "answers": [
+          "Improving problem-solving skills",
+          "Providing incentives for abstinence",
+          "Facilitating better interpersonal relationships",
+          "All of the above"
+        ],
+        "correct_answers": ["All of the above"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Oral naltrexone is indicated for the treatment of opioid dependence."
+        ],
+        "point_value": [1],
         "answers": ["True", "False"],
         "correct_answers": ["False"],
-        "randomize": false
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple select"],
+        "text": [
+          "Which of the following are indications for VIVITROL? (Select all that apply.)"
+        ],
+        "point_value": [1],
+        "answers": [
+          "The treatment of alcohol tolerance as part of a comprehensive management program that includes psychosocial support",
+          "The treatment of alcohol dependence in patients who are able to abstain from alcohol in an outpatient setting prior to initiation of treatment with VIVITROL; Patients should not be actively drinking at the time of initial VIVITROL administration",
+          "The prevention of relapse to opioid dependence following opioid detoxification",
+          "VIVITROL should be part of a comprehensive management program that includes psychosocial support"
+        ],
+        "correct_answers": [
+          "The treatment of alcohol dependence in patients who are able to abstain from alcohol in an outpatient setting prior to initiation of treatment with VIVITROL; Patients should not be actively drinking at the time of initial VIVITROL administration",
+          "The prevention of relapse to opioid dependence following opioid detoxification",
+          "VIVITROL should be part of a comprehensive management program that includes psychosocial support"
+        ],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["The recommended dose of VIVITROL is__________________."],
+        "point_value": [1],
+        "answers": ["190 mg", "250 mg", "380 mg", "400 mg"],
+        "correct_answers": ["380 mg"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Prior to preparation, approximately how much time should be allowed for the contents of VIVITROL to reach room temperature?"
+        ],
+        "point_value": [1],
+        "answers": ["15 minutes", "30 minutes", "45 minutes", "60 minutes"],
+        "correct_answers": ["45 minutes"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "The adverse events seen most frequently in association with VIVITROL therapy in opioid- dependent patients (i.e., those occurring in ≥2% of patients treated with VIVITROL and at least twice as frequently with VIVITROL than placebo) were all of the following except for:"
+        ],
+        "point_value": [1],
+        "answers": [
+          "Hepatic enzyme abnormalities",
+          "Injection site pain",
+          "Nasopharyngitis",
+          "Insomnia",
+          "Toothache",
+          "Headache"
+        ],
+        "correct_answers": ["Headache"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "True or False, VIVITROL administered by a healthcare provider as an intramuscular (IM) gluteal injection, should alternate buttocks for each subsequent injection, using the carton components provided."
+        ],
+        "point_value": [1],
+        "answers": ["True", "False"],
+        "correct_answers": ["True"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Which of the following is one of the warnings and precautions for VIVITROL is for:"
+        ],
+        "point_value": [1],
+        "answers": [
+          "renal failure",
+          "seizures",
+          "injection site reactions",
+          "insomnia"
+        ],
+        "correct_answers": ["injection site reactions"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Approximately how many alcohol dependent and opioid dependent patients were treated with VIVITROL in the controlled and uncontrolled premarketing VIVITROL studies?"
+        ],
+        "point_value": [1],
+        "answers": ["550", "900", "1100", "2500"],
+        "correct_answers": ["1100"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "In the controlled clinical trial, which adverse event led to more dropouts of alcohol dependent patients in the VIVITROL 380 mg group than in the placebo treated group?"
+        ],
+        "point_value": [1],
+        "answers": [
+          "injection site reactions",
+          "syncope",
+          "anorexia",
+          "nausea"
+        ],
+        "correct_answers": ["injection site reactions"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "What percentage of opioid dependent patients treated with VIVITROL in the controlled trial discontinued treatment due to an adverse event?"
+        ],
+        "point_value": [1],
+        "answers": ["0%", "2%", "9%", "15%"],
+        "correct_answers": ["2%"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["VIVITROL is an opioid:"],
+        "point_value": [1],
+        "answers": ["agonist", "partial agonist", "antagonist"],
+        "correct_answers": ["antagonist"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": ["Which of the following is true about VIVITROL?"],
+        "point_value": [1],
+        "answers": [
+          "Plasma concentrations of VIVITROL are highest 14 days after administration",
+          "VIVITROL plasma concentration rapidly decline after 3 days",
+          "VIVITROL is a rapid-release formulation and is administered weekly",
+          "Plasma concentrations of VIVITROL peak after 2 hours and again after 2 to 3 days"
+        ],
+        "correct_answers": [
+          "Plasma concentrations of VIVITROL peak after 2 hours and again after 2 to 3 days"
+        ],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "The elimination half-life of naltrexone following VIVITROL administration is _____ days and is dependent on the erosion of the polymer."
+        ],
+        "point_value": [1],
+        "answers": ["1-3", "4-8", "5-10", "15-18"],
+        "correct_answers": ["5-10"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "VIVITROL is metabolized by P450 enzymes and therefore has a high potential for interaction with other drugs"
+        ],
+        "point_value": [1],
+        "answers": ["True", "False"],
+        "correct_answers": ["False"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "All of the following were treatment groups in the alcohol dependence efficacy trial except?"
+        ],
+        "point_value": [1],
+        "answers": [
+          "190 mg VIVITROL",
+          "380 mg VIVITROL",
+          "500 mg VIVITROL",
+          "placebo"
+        ],
+        "correct_answers": ["500 mg VIVITROL"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "How many patients were included in the 24-week efficacy trial of VIVITROL for opioid dependence?"
+        ],
+        "point_value": [1],
+        "answers": ["250", "510", "624", "1100"],
+        "correct_answers": ["250"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Complete abstinence, defined as opioid-free at all weekly visits, was sustained by 23% of the subjects in the placebo group compared with ____ of the subjects in the VIVITROL group from Week 5 to Week 24."
+        ],
+        "point_value": [1],
+        "answers": ["5%", "25%", "36%", "52%"],
+        "correct_answers": ["36%"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Subjects treated with VIVITROL 380 mg demonstrated a greater reduction in days of heavy drinking than those treated with placebo"
+        ],
+        "point_value": [1],
+        "answers": ["True", "False"],
+        "correct_answers": ["True"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Heavy drinking was defined as self-report of __ or more standard drinks consumed on a given day for male patients and __ or more drinks for female patients"
+        ],
+        "point_value": [1],
+        "answers": ["5, 4", "6, 5", "4, 5", "7, 5"],
+        "correct_answers": ["5, 4"],
+        "randomize": [true]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "In the study by Krupitsky et al., the median percentage of opioid-free weeks (from weeks 5 through 24) for patients in the VIVITROL plus psychosocial support group was significantly higher than that of the placebo plus psychosocial group."
+        ],
+        "point_value": [1],
+        "answers": ["True", "False"],
+        "correct_answers": ["True"],
+        "randomize": [false]
+      },
+      {
+        "type": ["multiple choice"],
+        "text": [
+          "Among opioid-dependent patients who received VIVITROL and placebo, the rate of discontinuation due to adverse events was 2%."
+        ],
+        "point_value": [1],
+        "answers": ["True", "False"],
+        "correct_answers": ["True"],
+        "randomize": [false]
       }
     ]
   }
