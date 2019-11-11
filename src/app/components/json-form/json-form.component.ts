@@ -20,6 +20,8 @@ export class JsonFormComponent implements OnInit {
   randomizeQuiz = false;
   finalJSON = [{}];
 
+  selectionMade = false;
+
   quizJSON = [];
 
   constructor(
@@ -30,45 +32,67 @@ export class JsonFormComponent implements OnInit {
 
   ngOnInit() {
     this.quizForm = this.fb.group({
-      questions: this.fb.array([this.initQuestions()])
+      buckets: this.fb.array([this.initBucket()])
     });
 
     this.quizService.initQuiz();
-    this.quizService.getQuiz().subscribe(data => {
-      this.parseQuiz(data);
+  }
+
+  //Check if importing or creating new
+  makeForm(importJSON) {
+    if (importJSON) {
+      this.parseQuiz();
+    }
+    this.selectionMade = true;
+  }
+
+  initBucket() {
+    return this.fb.group({
+      questions: this.fb.array([this.initQuestions()])
     });
   }
 
+  //Initial Questions array with empty values
   initQuestions() {
     return this.fb.group({
-      //  ---------------------forms fields on x level ------------------------
       Type: [],
       Text: [],
       Points: [],
-      // ---------------------------------------------------------------------
       Answers: this.fb.array([]),
       CorrectAnswers: this.fb.array([]),
       Randomize: [false]
     });
   }
 
+  //Initial Answers array with empty values
   initAnswers() {
     return this.fb.group({
       Answer: [""]
     });
   }
 
+  //Initial Correct Answers array with empty values
   initCorretAnswers() {
     return this.fb.group({
       Correct: [""]
     });
   }
 
-  addQuestion() {
-    const control = <FormArray>this.quizForm.controls["questions"];
+  addBucket() {
+    const control = <FormArray>this.quizForm.controls["buckets"];
+    control.push(this.initBucket());
+  }
+
+  //Add empty question
+  addQuestion(index) {
+    const control = (<FormArray>this.quizForm.controls["buckets"])
+      .at(index)
+      .get("questions") as FormArray;
+    // const control = <FormArray>this.quizForm.controls["questions"];
     control.push(this.initQuestions());
   }
 
+  //Update values of forms based on json
   setQuestions(data) {
     let control = <FormArray>this.quizForm.controls.questions;
 
@@ -87,6 +111,7 @@ export class JsonFormComponent implements OnInit {
     }
   }
 
+  //Add all answers from json into correct form array
   addAllAnswers(index, data) {
     const control = (<FormArray>this.quizForm.controls["questions"])
       .at(index)
@@ -101,16 +126,7 @@ export class JsonFormComponent implements OnInit {
     }
   }
 
-  // addFirstCorrect(index, data) {
-  //   const control = (<FormArray>this.quizForm.controls["questions"])
-  //     .at(index)
-  //     .get("CorrectAnswers") as FormArray;
-
-  //   return this.fb.group({
-  //     Correct: [data[0]]
-  //   });
-  // }
-
+  //Add all correct answers from json into correct form array
   addAllCorrect(index, data) {
     const control = (<FormArray>this.quizForm.controls["questions"])
       .at(index)
@@ -125,55 +141,81 @@ export class JsonFormComponent implements OnInit {
     }
   }
 
-  deleteQuestion(index: number) {
-    const control = <FormArray>this.quizForm.controls["questions"];
+  //Delete question from form
+  deleteQuestion(bIndex, qIndex) {
+    // const control = <FormArray>this.quizForm.controls["questions"];
+    const control = (<FormArray>this.quizForm.controls["buckets"])
+      .at(bIndex)
+      .get("questions") as FormArray;
+
     if (control.length > 1) {
-      control.removeAt(index);
+      control.removeAt(qIndex);
     }
   }
 
-  addAnswer(index) {
-    const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(index)
+  //Add answer to right question with empty values
+  addAnswer(bIndex, qIndex) {
+    const control = ((<FormArray>this.quizForm.controls["buckets"])
+      .at(bIndex)
+      .get("questions") as FormArray)
+      .at(qIndex)
       .get("Answers") as FormArray;
+
+    // const control = ((<FormArray>this.quizForm.controls['buckets']).at(ix).get('Ys') as FormArray).at(iy).get('Zs') as FormArray;
     control.push(this.initAnswers());
   }
 
-  deleteAnswer(index: number) {
-    const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(index)
+  //Delete answer from question
+  deleteAnswer(bIndex, qIndex) {
+    const control = ((<FormArray>this.quizForm.controls["buckets"])
+      .at(bIndex)
+      .get("questions") as FormArray)
+      .at(qIndex)
       .get("Answers") as FormArray;
 
-    control.removeAt(index);
+    // control.removeAt(index);
     if (control.length > 1) {
-      control.removeAt(index);
-      console.log(index);
+      control.removeAt(qIndex);
+      // console.log(index);
     }
   }
 
-  addCorrect(ix) {
-    const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(ix)
+  //Add another correct answer to right question
+  addCorrect(bIndex, qIndex) {
+    const control = ((<FormArray>this.quizForm.controls["buckets"])
+      .at(bIndex)
+      .get("questions") as FormArray)
+      .at(qIndex)
       .get("CorrectAnswers") as FormArray;
+
     control.push(this.initCorretAnswers());
   }
 
-  deleteCorrect(index) {
-    const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(index)
+  //Delete correct answer from right question
+  deleteCorrect(bIndex, qIndex) {
+    const control = ((<FormArray>this.quizForm.controls["buckets"])
+      .at(bIndex)
+      .get("questions") as FormArray)
+      .at(qIndex)
       .get("CorrectAnswers") as FormArray;
     if (control.length > 1) {
-      control.removeAt(index);
+      control.removeAt(qIndex);
     }
   }
 
-  parseQuiz(data) {
-    console.log(data);
-    let questions = data[0]["questions"];
-    console.log("qeustions", questions);
-    this.setQuestions(questions);
+  //Grab the json form and get array of questions
+  parseQuiz() {
+    console.log();
+    this.quizService.getQuiz().subscribe(data => {
+      // this.parseQuiz(data);
+      console.log(data);
+      let questions = data[0]["questions"];
+      console.log("qeustions", questions);
+      this.setQuestions(questions);
+    });
   }
 
+  //Submit form and build dictionary to build json
   submit() {
     let questions = this.quizForm.value.questions;
     this.finalJSON[0]["num_questions"] = questions.length;
@@ -194,7 +236,7 @@ export class JsonFormComponent implements OnInit {
       allQuestions.push({
         type: questions[i]["Type"],
         text: questions[i]["Text"],
-        point_value: questions[i]["Points"],
+        point_value: questions[i]["Points"][0],
         answers: answers,
         correct_answers: correctAnswers,
         randomize: questions[i]["Randomize"]
@@ -205,6 +247,7 @@ export class JsonFormComponent implements OnInit {
     this.saveJSON(JSON.stringify(this.finalJSON), "stuff.json");
   }
 
+  //Download json file with given file name
   saveJSON(text, filename) {
     var a = document.createElement("a");
     a.setAttribute(
