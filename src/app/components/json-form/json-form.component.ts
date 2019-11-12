@@ -23,12 +23,12 @@ export class JsonFormComponent implements OnInit {
   selectionMade = false;
 
   quizJSON = [];
+  types = ["multiple choice", "multiple select", "fill in the blank"];
 
-  constructor(
-    private fb: FormBuilder,
-    private httpClient: HttpClient,
-    private quizService: GetJsonService
-  ) {}
+  //options for type
+  //multiple choice, multiple select, fill in the blank
+
+  constructor(private fb: FormBuilder, private quizService: GetJsonService) {}
 
   ngOnInit() {
     this.quizForm = this.fb.group({
@@ -48,6 +48,8 @@ export class JsonFormComponent implements OnInit {
 
   initBucket() {
     return this.fb.group({
+      num_questions: [],
+      randomize: false,
       questions: this.fb.array([this.initQuestions()])
     });
   }
@@ -93,28 +95,37 @@ export class JsonFormComponent implements OnInit {
   }
 
   //Update values of forms based on json
-  setQuestions(data) {
-    let control = <FormArray>this.quizForm.controls.questions;
+  setQuestions(i, data) {
+    const control = (<FormArray>this.quizForm.controls["buckets"])
+      .at(i)
+      .get("questions") as FormArray;
 
-    for (let i = 0; i < data.length; i++) {
-      control.at(i).patchValue({
-        Type: [data[i]["type"]],
-        Text: [data[i]["text"]],
-        Points: [data[i]["point_value"]],
-        Randomize: [data[i]["randomize"]]
+    for (let j = 0; j < data.length; j++) {
+      control.at(j).patchValue({
+        Type: [data[j]["type"]],
+        Text: [data[j]["text"]],
+        Points: [data[j]["point_value"]],
+        Randomize: [data[j]["randomize"]]
       });
-      this.addAllAnswers(i, data[i]["answers"]);
-      this.addAllCorrect(i, data[i]["correct_answers"]);
-      if (i < data.length - 1) {
+      this.addAllAnswers(i, j, data[j]["answers"]);
+      this.addAllCorrect(i, j, data[j]["correct_answers"]);
+      if (j < data.length - 1) {
+        console.log("i: " + i + " data.length: ", data.length);
         control.push(this.initQuestions());
       }
     }
   }
 
   //Add all answers from json into correct form array
-  addAllAnswers(index, data) {
-    const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(index)
+  addAllAnswers(bIndex, qIndex, data) {
+    // const control = (<FormArray>this.quizForm.controls["questions"])
+    //   .at(index)
+    //   .get("Answers") as FormArray;
+
+    const control = ((<FormArray>this.quizForm.controls["buckets"])
+      .at(bIndex)
+      .get("questions") as FormArray)
+      .at(qIndex)
       .get("Answers") as FormArray;
 
     for (let i = 0; i < data.length; i++) {
@@ -127,9 +138,11 @@ export class JsonFormComponent implements OnInit {
   }
 
   //Add all correct answers from json into correct form array
-  addAllCorrect(index, data) {
-    const control = (<FormArray>this.quizForm.controls["questions"])
-      .at(index)
+  addAllCorrect(bIndex, qIndex, data) {
+    const control = ((<FormArray>this.quizForm.controls["buckets"])
+      .at(bIndex)
+      .get("questions") as FormArray)
+      .at(qIndex)
       .get("CorrectAnswers") as FormArray;
 
     for (let i = 0; i < data.length; i++) {
@@ -173,10 +186,8 @@ export class JsonFormComponent implements OnInit {
       .at(qIndex)
       .get("Answers") as FormArray;
 
-    // control.removeAt(index);
-    if (control.length > 1) {
-      control.removeAt(qIndex);
-      // console.log(index);
+    if (control.length >= 1) {
+      control.removeAt(control.length - 1);
     }
   }
 
@@ -198,51 +209,78 @@ export class JsonFormComponent implements OnInit {
       .get("questions") as FormArray)
       .at(qIndex)
       .get("CorrectAnswers") as FormArray;
-    if (control.length > 1) {
-      control.removeAt(qIndex);
+    if (control.length >= 1) {
+      control.removeAt(control.length - 1);
     }
   }
 
   //Grab the json form and get array of questions
   parseQuiz() {
+    let bucketControl = <FormArray>this.quizForm.controls.buckets;
     console.log();
     this.quizService.getQuiz().subscribe(data => {
       // this.parseQuiz(data);
       console.log(data);
-      let questions = data[0]["questions"];
-      console.log("qeustions", questions);
-      this.setQuestions(questions);
+      for (let i = 0; i < data.length; i++) {
+        bucketControl.at(i).patchValue({
+          num_questions: data[i]["num_questions"]
+        });
+        let questions = data[i]["questions"];
+        console.log("qeustions", questions);
+        this.setQuestions(i, questions);
+
+        if (i < data.length - 1) {
+          // console.log()
+          bucketControl.push(this.initBucket());
+        }
+      }
     });
   }
 
   //Submit form and build dictionary to build json
   submit() {
-    let questions = this.quizForm.value.questions;
-    this.finalJSON[0]["num_questions"] = questions.length;
-    this.finalJSON[0]["randomize"] = this.randomizeQuiz;
+    let buckets = this.quizForm.value.buckets;
+    for (let i = 0; i < buckets.length; i++) {
+      // this.finalJSON.push(null);
+      let questions = buckets[i]["questions"];
 
-    let allQuestions = [];
+      let allQuestions = [];
 
-    for (let i = 0; i < questions.length; i++) {
-      let answers = [];
-      let correctAnswers = [];
-      for (let j = 0; j < questions[i]["Answers"].length; j++) {
-        answers.push(questions[i]["Answers"][j]["Answer"]);
+      for (let j = 0; j < questions.length; j++) {
+        let answers = [];
+        let correctAnswers = [];
+        for (let k = 0; k < questions[j]["Answers"].length; k++) {
+          answers.push(questions[j]["Answers"][k]["Answer"]);
+        }
+        for (let k = 0; k < questions[j]["CorrectAnswers"].length; k++) {
+          correctAnswers.push(questions[j]["CorrectAnswers"][k]["Correct"]);
+        }
+
+        allQuestions.push({
+          type: questions[j]["Type"],
+          text: questions[j]["Text"],
+          point_value: questions[j]["Points"][0],
+          answers: answers,
+          correct_answers: correctAnswers,
+          randomize: questions[j]["Randomize"]
+        });
       }
-      for (let j = 0; j < questions[i]["CorrectAnswers"].length; j++) {
-        correctAnswers.push(questions[i]["CorrectAnswers"][j]["Correct"]);
+      let obj = {
+        num_questions: buckets[i]["num_questions"],
+        randomize: buckets[i]["randomize"],
+        questions: allQuestions
+      };
+      if (i == 0) {
+        this.finalJSON[0] = obj;
+      } else {
+        this.finalJSON.push(obj);
       }
 
-      allQuestions.push({
-        type: questions[i]["Type"],
-        text: questions[i]["Text"],
-        point_value: questions[i]["Points"][0],
-        answers: answers,
-        correct_answers: correctAnswers,
-        randomize: questions[i]["Randomize"]
-      });
+      // this.finalJSON[i]["num_questions"] = questions.length;
+      // this.finalJSON[i]["randomize"] = this.randomizeQuiz;
+      // this.finalJSON[i]["questions"] = allQuestions;
     }
-    this.finalJSON[0]["questions"] = allQuestions;
+
     console.log(this.finalJSON);
     this.saveJSON(JSON.stringify(this.finalJSON), "stuff.json");
   }

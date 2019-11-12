@@ -4,14 +4,6 @@
 <button (click)="makeForm(true)">Import</button>
 
 <div class="container" *ngIf="selectionMade">
-  <label for="randomizeAll">Randomize</label>
-
-  <input
-    type="checkbox"
-    id="randomizeAll"
-    #randomizeAll
-    [(ngModel)]="randomizeQuiz"
-  />
   <form [formGroup]="quizForm" (ngSubmit)="submit()">
     <!-- Questions -->
     <div formArrayName="buckets">
@@ -21,7 +13,22 @@
           let b = index
         "
       >
-        <div formGroupName="{{ b }}" class="Xs">
+        <div formGroupName="{{ b }}" class="">
+          <p>Bucket {{ b + 1 }}</p>
+          <label for="num_questions">Number of Questions</label>
+          <input
+            type="number"
+            formControlName="num_questions"
+            id="num_questions"
+          />
+
+          <label for="randomize">Randomize Questions</label>
+          <input type="checkbox" formControlName="Randomize" id="randomize" />
+          <p>
+            ------------------------------------------------------------------------------------------------------------
+          </p>
+        </div>
+        <div formGroupName="{{ b }}" class="">
           <div formArrayName="questions">
             <div
               *ngFor="
@@ -29,20 +36,30 @@
                 let ix = index
               "
             >
-              <p>
-                ------------------------------------------------------------------------------------------------------------
-              </p>
               <p>Bucket {{ b + 1 }} Question {{ ix + 1 }}</p>
               <input
                 type="button"
                 (click)="deleteQuestion(b, ix)"
                 value="Delete Question"
               />
+
               <div formGroupName="{{ ix }}" class="Xs">
-                <label for="type">Type</label>
-                <input type="text" formControlName="Type" id="type" />
+                <!-- <label for="type">Type</label>
+                <input type="text" formControlName="Type" id="type" /> -->
+                <select formControlName="Type" id="type">
+                  <option
+                    *ngFor="let type of types; let i = index"
+                    [value]="types[i]"
+                  >
+                    {{ types[i] }}
+                  </option>
+                </select>
                 <label for="text">Text</label>
-                <input type="text" formControlName="Text" id="text" />
+                <textarea
+                  type="text"
+                  formControlName="Text"
+                  id="text"
+                ></textarea>
                 <label for="points">Points</label>
                 <input type="number" formControlName="Points" id="points" />
 
@@ -105,6 +122,9 @@
                 />
               </div>
               <!-- Correct Answers End -->
+              <p>
+                ------------------------------------------------------------------------------------------------------------
+              </p>
             </div>
           </div>
           <input type="button" (click)="addQuestion(b)" value="Add Question" />
