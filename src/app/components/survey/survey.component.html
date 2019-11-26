@@ -1,0 +1,184 @@
+<h1>Quiz Maker</h1>
+
+<button (click)="makeForm(false)">Create New</button>
+<button (click)="makeForm(true)">Import</button>
+
+<div class="container" *ngIf="selectionMade">
+  <form [formGroup]="quizForm" (ngSubmit)="submit()">
+    <!-- Questions -->
+    <div formArrayName="questions">
+      <div
+        *ngFor="
+          let question of quizForm['controls'].questions['controls'];
+          let ix = index
+        "
+      >
+        <p>Question {{ ix + 1 }}</p>
+        <input
+          type="button"
+          (click)="deleteQuestion(ix)"
+          value="Delete Question"
+        />
+
+        <div formGroupName="{{ ix }}" class="Xs">
+          <label for="type">Type</label>
+          <select formControlName="Type" id="type">
+            <option
+              *ngFor="let type of types; let i = index"
+              [value]="types[i]"
+            >
+              {{ types[i] }}
+            </option>
+          </select>
+          <label for="valid">Must Be Valid</label>
+          <input type="checkbox" formControlName="valid" id="valid" />
+          <div
+            *ngIf="
+              quizForm.value.questions[ix]['Type'] != '' &&
+              quizForm.value.questions[ix]['Type'] != 'Likert Group'
+            "
+          >
+            <label for="prompt">Prompt</label>
+            <input type="text" formControlName="prompt" id="prompt" />
+          </div>
+
+          <div
+            *ngIf="
+              (quizForm.value.questions[ix]['Type'] != '' &&
+                quizForm.value.questions[ix]['Type'] == 'Likert') ||
+              quizForm.value.questions[ix]['Type'] == 'Likert Group'
+            "
+          >
+            <label for="range">Range</label>
+            <input type="text" formControlName="range" id="range" />
+
+            <div formArrayName="labels">
+              <p>Labels</p>
+              <div
+                *ngFor="
+                  let answer of question['controls'].labels['controls'];
+                  let l = index
+                "
+              >
+                <div formGroupName="{{ l }}" class="Ys">
+                  <input type="text" formControlName="label" />
+                </div>
+              </div>
+              <input type="button" (click)="addLabel(ix)" value="Add Label" />
+              <input
+                type="button"
+                (click)="deleteLabel(ix)"
+                value="Delete Label"
+              />
+            </div>
+
+            <div
+              *ngIf="
+                quizForm.value.questions[ix]['Type'] != '' &&
+                quizForm.value.questions[ix]['Type'] == 'Likert Group'
+              "
+            >
+              <div formArrayName="prompts">
+                <p>Prompts</p>
+                <div
+                  *ngFor="
+                    let answer of question['controls'].prompts['controls'];
+                    let p = index
+                  "
+                >
+                  <div formGroupName="{{ p }}" class="Ys">
+                    <input type="text" formControlName="prompt" />
+                  </div>
+                </div>
+                <input
+                  type="button"
+                  (click)="addPrompt(ix)"
+                  value="Add Prompt"
+                />
+                <input
+                  type="button"
+                  (click)="deletePrompt(ix)"
+                  value="Delete Prompt"
+                />
+              </div>
+            </div>
+
+            <label for="na">NA</label>
+            <input type="checkbox" formControlName="NA" id="na" />
+          </div>
+
+          <div
+            *ngIf="
+              quizForm.value.questions[ix]['Type'] != '' &&
+              (quizForm.value.questions[ix]['Type'] == 'Multiple Choice' ||
+                quizForm.value.questions[ix]['Type'] == 'Multiple Select')
+            "
+          >
+            <!-- Answers -->
+            <div formArrayName="Answers">
+              <p>Answers</p>
+              <div
+                *ngFor="
+                  let answer of question['controls'].Answers['controls'];
+                  let iy = index
+                "
+              >
+                <div formGroupName="{{ iy }}" class="Ys">
+                  <input type="text" formControlName="Answer" />
+                </div>
+              </div>
+              <input type="button" (click)="addAnswer(ix)" value="Add Answer" />
+              <input
+                type="button"
+                (click)="deleteAnswer(ix)"
+                value="Delete Answer"
+              />
+            </div>
+            <!-- Answers End-->
+            <label for="other">Other</label>
+            <input type="checkbox" formControlName="other" id="other" />
+          </div>
+          <div
+            *ngIf="
+              quizForm.value.questions[ix]['Type'] != '' &&
+              quizForm.value.questions[ix]['Type'] != 'Multiple Choice' &&
+              quizForm.value.questions[ix]['Type'] != 'Likert' &&
+              quizForm.value.questions[ix]['Type'] != 'Likert Group'
+            "
+          >
+            <label for="min">Minimum</label>
+            <input type="number" formControlName="minAnswers" id="min" />
+
+            <label for="max">Maximum</label>
+            <input type="number" formControlName="maxAnswers" id="max" />
+          </div>
+
+          <div
+            *ngIf="
+              quizForm.value.questions[ix]['Type'] != '' &&
+              quizForm.value.questions[ix]['Type'] == 'Long Answer'
+            "
+          >
+            <label for="lines">Num Lines</label>
+            <input type="number" formControlName="numLines" id="lines" />
+          </div>
+        </div>
+        <p>
+          ------------------------------------------------------------------------------------------------------------
+        </p>
+      </div>
+    </div>
+    <input type="button" (click)="addQuestion()" value="Add Question" />
+    <!-- </div> -->
+    <!-- <input type="button" (click)="addBucket()" value="Add Bucket" /> -->
+    <!-- </div> -->
+    <!-- </div> -->
+
+    <!-- Questions End -->
+    <button type="submit">Submit Quiz</button>
+    <form>
+      <h5>Field Values</h5>
+      <pre style="font-size:15px">{{ quizForm.value | json }}</pre>
+    </form>
+  </form>
+</div>

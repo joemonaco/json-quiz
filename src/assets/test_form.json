@@ -1,0 +1,134 @@
+{
+  "questions": [
+    {
+      "type": "Multiple Choice",
+      "prompt": "This is a multiple choice question",
+      "mustBeValid": true,
+      "answers": [
+        "An Answer Choice",
+        "Some other choice",
+        "This option here",
+        "Answer 4"
+      ],
+      "other": true
+    },
+    {
+      "type": "Multiple Choice",
+      "prompt": "Multiple choice questions are easy.",
+      "mustBeValid": false,
+      "answers": ["Agree", "Disagree"],
+      "other": false
+    },
+    {
+      "type": "Multiple Select",
+      "prompt": "This is a multiple select question",
+      "mustBeValid": true,
+      "minAnswers": 1,
+      "maxAnswers": 4,
+      "answers": [
+        "An Answer Choice",
+        "Some other choice",
+        "This option here",
+        "Answer 4"
+      ],
+      "other": true
+    },
+    {
+      "type": "Multiple Select",
+      "prompt": "Choose up to 2 options here",
+      "mustBeValid": true,
+      "minAnswers": 0,
+      "maxAnswers": 2,
+      "answers": [
+        "An Answer Choice",
+        "Some other choice",
+        "This option here",
+        "Answer 4"
+      ],
+      "other": true
+    },
+    {
+      "type": "Short Answer",
+      "prompt": "This is a short answer question",
+      "mustBeValid": true,
+      "minLength": 1,
+      "maxLength": 32
+    },
+    {
+      "type": "Long Answer",
+      "prompt": "This is a long answer question",
+      "mustBeValid": false,
+      "minLength": 32,
+      "maxLength": 4096,
+      "numLines": 3
+    },
+    {
+      "type": "Numerical",
+      "prompt": "This is a numerical input question",
+      "mustBeValid": true,
+      "minValue": 0,
+      "maxValue": 100
+    },
+    {
+      "type": "Numerical",
+      "prompt": "This is a numerical input question",
+      "mustBeValid": false,
+      "minValue": -1000000.0,
+      "maxValue": 10000000.0
+    },
+    {
+      "type": "Likert",
+      "prompt": "Rate this Likert question",
+      "mustBeValid": true,
+      "range": "1 to 10",
+      "labels": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+      "NA": false
+    },
+    {
+      "type": "Likert",
+      "prompt": "This is a Likert question",
+      "mustBeValid": true,
+      "range": "Unacceptable to Outstanding",
+      "labels": [
+        "Unacceptable",
+        "Target Minus",
+        "Target",
+        "Target Plus",
+        "Outstanding"
+      ],
+      "NA": true
+    },
+    {
+      "type": "Likert Group",
+      "prompts": [
+        "This is a Likert Group Question",
+        "This is another Likert Group Question",
+        "This is a third Likert Group Question"
+      ],
+      "mustBeValid": true,
+      "range": "1 to 5",
+      "labels": ["1", "2", "3", "4", "5"],
+      "NA": true
+    },
+    {
+      "type": "Likert Group",
+      "prompts": [
+        "This is a Likert Group Question",
+        "This is another Likert Group Question",
+        "This is a third Likert Group Question"
+      ],
+      "mustBeValid": true,
+      "range": "Strongly disagree to Strongly agree",
+      "labels": [
+        "Strongly disagree",
+        "Disagree",
+        "Somewhat disagree",
+        "Neither agree nor disagree",
+        "Somewhat Agree",
+        "Agree",
+        "Strongly Agree"
+      ],
+      "NA": false
+    }
+  ]
+}

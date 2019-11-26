@@ -10,7 +10,7 @@ export class GetJsonService {
   constructor(private http: HttpClient) {}
 
   initQuiz() {
-    this.quiz = this.http.get<any[]>("../assets/entrance_exam.json");
+    this.quiz = this.http.get<any[]>("../assets/test_form.json");
   }
 
   getQuiz(): Observable<any[]> {

@@ -7,9 +7,10 @@ import { JsonFormComponent } from "./components/json-form/json-form.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { GetJsonService } from "./services/get-json.service";
+import { SurveyComponent } from './components/survey/survey.component';
 
 @NgModule({
-  declarations: [AppComponent, JsonFormComponent],
+  declarations: [AppComponent, JsonFormComponent, SurveyComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

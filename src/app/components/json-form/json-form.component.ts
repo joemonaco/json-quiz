@@ -81,7 +81,7 @@ export class JsonFormComponent implements OnInit {
   }
 
   addBucket() {
-    const control = <FormArray>this.quizForm.controls["buckets"];
+    const control = <FormArray>this.quizForm.controls.buckets;
     control.push(this.initBucket());
   }
 
@@ -90,7 +90,6 @@ export class JsonFormComponent implements OnInit {
     const control = (<FormArray>this.quizForm.controls["buckets"])
       .at(index)
       .get("questions") as FormArray;
-    // const control = <FormArray>this.quizForm.controls["questions"];
     control.push(this.initQuestions());
   }
 
@@ -118,10 +117,6 @@ export class JsonFormComponent implements OnInit {
 
   //Add all answers from json into correct form array
   addAllAnswers(bIndex, qIndex, data) {
-    // const control = (<FormArray>this.quizForm.controls["questions"])
-    //   .at(index)
-    //   .get("Answers") as FormArray;
-
     const control = ((<FormArray>this.quizForm.controls["buckets"])
       .at(bIndex)
       .get("questions") as FormArray)
@@ -156,7 +151,6 @@ export class JsonFormComponent implements OnInit {
 
   //Delete question from form
   deleteQuestion(bIndex, qIndex) {
-    // const control = <FormArray>this.quizForm.controls["questions"];
     const control = (<FormArray>this.quizForm.controls["buckets"])
       .at(bIndex)
       .get("questions") as FormArray;
@@ -174,7 +168,6 @@ export class JsonFormComponent implements OnInit {
       .at(qIndex)
       .get("Answers") as FormArray;
 
-    // const control = ((<FormArray>this.quizForm.controls['buckets']).at(ix).get('Ys') as FormArray).at(iy).get('Zs') as FormArray;
     control.push(this.initAnswers());
   }
 
@@ -230,7 +223,6 @@ export class JsonFormComponent implements OnInit {
         this.setQuestions(i, questions);
 
         if (i < data.length - 1) {
-          // console.log()
           bucketControl.push(this.initBucket());
         }
       }
